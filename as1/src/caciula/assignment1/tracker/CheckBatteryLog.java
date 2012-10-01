@@ -64,7 +64,7 @@ public class CheckBatteryLog extends Activity {
  			String line;
  			
  			while ((line = br.readLine()) != null) {
- 				String[] tokens = line.split("/");
+ 				String[] tokens = line.split("\\|");
  				String message = "Date: " + tokens[0] + "\nDescription: " + tokens[1] + "\nStarting battery %: " + tokens[2] + "\nEnding battery %: " + tokens[3] + "\nTime (in seconds): " + tokens[4];
  				
  				logfileEntries.add(message);

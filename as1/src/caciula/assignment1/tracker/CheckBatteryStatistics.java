@@ -42,7 +42,7 @@ public class CheckBatteryStatistics extends Activity {
  			String line;
  			
  			while ((line = br.readLine()) != null) {
- 				String[] tokens = line.split("/");
+ 				String[] tokens = line.split("\\|");
  				
  				float startingBatteryPercentage = Float.parseFloat(tokens[2]);
  				float endingBatteryPercentage = Float.parseFloat(tokens[3]);

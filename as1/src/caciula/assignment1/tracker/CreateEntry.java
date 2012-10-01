@@ -10,6 +10,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 /*
  * Purpose: Creates a new entry to insert into the log file.
@@ -17,10 +18,7 @@ import android.widget.EditText;
  * Design rationale: Everything is really standard; this simply reads all values from
  * the EditText boxes and appends them to the log file.
  * 
- * Outstanding issues: There is no error checking on the user input. Also, since
- * the program saves all of the data on a single line, I had to use a delimiter
- * (in this case, it was /). If the description, or any other field, contains this
- * character, that'll break the program.
+ * Outstanding issues: None.
  */
 
 public class CreateEntry extends Activity {
@@ -49,23 +47,50 @@ public class CreateEntry extends Activity {
     	
     	String date = dateEntry.getText().toString();
     	String description = descriptionEntry.getText().toString();
-    	
     	String startingBattery = startingBatteryEntry.getText().toString();
+    	String endingBattery = endingBatteryEntry.getText().toString();
+    	String hour = timeHourEntry.getText().toString();
+    	String minute = timeMinuteEntry.getText().toString();
+    	String second = timeSecondEntry.getText().toString();
+    	
+    	if ((date.length() == 0)||(description.length() == 0)||(startingBattery.length() == 0)||(endingBattery.length() == 0)||(hour.length() == 0)||(minute.length() == 0)||(second.length() == 0)) {
+    		TextView error = (TextView) findViewById(R.id.error);
+    		error.setText("Error: one or more fields are empty");
+    		return;
+    	}
+    	
+    	if ((!startingBattery.matches("^[0-9]+\\.?[0-9]*$"))||(!endingBattery.matches("^[0-9]+\\.?[0-9]*$"))) {
+    		TextView error = (TextView) findViewById(R.id.error);
+    		error.setText("Error: battery percentages aren't floats");
+    		return;
+    	}
+    	
+    	if ((!hour.matches("^[0-9]+$"))||(!minute.matches("^[0-9]+$"))||(!second.matches("^[0-9]+$"))) {
+    		TextView error = (TextView) findViewById(R.id.error);
+    		error.setText("Error: time values aren't integers");
+    		return;
+    	}
+    	
     	float startingBatteryFloat = Float.parseFloat(startingBattery);
     	startingBattery = String.format("%.2f", startingBatteryFloat);
     	
-    	String endingBattery = endingBatteryEntry.getText().toString();
     	float endingBatteryFloat = Float.parseFloat(endingBattery);
     	endingBattery = String.format("%.2f", endingBatteryFloat);
     	
-    	int hour = java.lang.Integer.parseInt(timeHourEntry.getText().toString());
-    	int minute = java.lang.Integer.parseInt(timeMinuteEntry.getText().toString());
-    	int second = java.lang.Integer.parseInt(timeSecondEntry.getText().toString());
-    	int timeInSeconds = (3600*hour)+(60*minute)+(second);
+    	if ((startingBatteryFloat > 100)||(endingBatteryFloat < 0)||(startingBatteryFloat < endingBatteryFloat)) {
+    		TextView error = (TextView) findViewById(R.id.error);
+    		error.setText("Error: invalid battery usage range");
+    		return;
+    	}
+    	
+    	int hourInt = java.lang.Integer.parseInt(hour);
+    	int minuteInt = java.lang.Integer.parseInt(minute);
+    	int secondInt = java.lang.Integer.parseInt(second);
+    	int timeInSeconds = (3600*hourInt)+(60*minuteInt)+(secondInt);
     	String time = "" + timeInSeconds;
     	
-    	String message = date + "/" + description + "/" + startingBattery + "/" +
-    			endingBattery + "/" + time + "\n";
+    	String message = date + "|" + description + "|" + startingBattery + "|" +
+    			endingBattery + "|" + time + "\n";
 
 		try {
 			FileOutputStream fos;

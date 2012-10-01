@@ -111,11 +111,18 @@
     <Button android:id="@+id/submit"
         android:layout_width="200dip"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/time_second_entry"
+        android:layout_marginTop="15dip"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dip"
         android:text="@string/create_submit"
         android:textSize="20sp"
         android:onClick="submit" />
+    
+    <TextView android:id="@+id/error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="15sp" />
     
 </RelativeLayout>
