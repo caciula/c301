@@ -17,6 +17,22 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+/*
+ * Purpose: Displays all entries created by the user, with the option to delete
+ * and create entries.
+ * 
+ * Design rationale: I decided to write to file a single line per entry. I first
+ * intended to have an OO solution (have a LogEntry class and save it to file as
+ * an object), but once I got to designing a custom Adaptor for the ListView, it 
+ * got too hard. Furthermore, deleting an entry first requires the user to select
+ * one from the list and then pressing the delete button. I did it this way, instead
+ * of selecting multiple entries, because from my trials once you selected an entry,
+ * all indications of you having selected it disappeared, so it remained up to the
+ * user to remember which ones were selected.
+ * 
+ * Outstanding issues: None.
+ */
+
 public class CheckBatteryLog extends Activity {
 
     @Override
@@ -33,11 +49,13 @@ public class CheckBatteryLog extends Activity {
     }
     
     private void checkLog() {
+    	//Code for displaying text in a ListView is from: http://www.vogella.com/articles/AndroidListView/article.html
     	ListView listView = (ListView) findViewById(R.id.log_entries);
     	listView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
         
         List<String> logfileEntries = new ArrayList<String>();
          
+        //Code to read a file, line by line, is from: http://www.roseindia.net/java/beginners/java-read-file-line-by-line.shtml
  		try {
  			FileInputStream fis = openFileInput("logfile");
  			DataInputStream dis = new DataInputStream(fis);
@@ -97,6 +115,7 @@ public class CheckBatteryLog extends Activity {
      		}
     		
     		try {
+    			//Code to (over)write to a new file is from: http://developer.android.com/guide/topics/data/data-storage.html
     			FileOutputStream fos;
     			fos = openFileOutput("logfile", Context.MODE_PRIVATE);
     			

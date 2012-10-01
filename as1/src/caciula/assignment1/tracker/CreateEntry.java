@@ -11,6 +11,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
+/*
+ * Purpose: Creates a new entry to insert into the log file.
+ * 
+ * Design rationale: Everything is really standard; this simply reads all values from
+ * the EditText boxes and appends them to the log file.
+ * 
+ * Outstanding issues: There is no error checking on the user input. Also, since
+ * the program saves all of the data on a single line, I had to use a delimiter
+ * (in this case, it was /). If the description, or any other field, contains this
+ * character, that'll break the program.
+ */
+
 public class CreateEntry extends Activity {
 
     @Override
@@ -18,6 +30,7 @@ public class CreateEntry extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_entry);
         
+        //Code to get the date is from: http://www.mkyong.com/java/java-how-to-get-current-date-time-date-and-calender/
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar cal = Calendar.getInstance();
         

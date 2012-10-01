@@ -9,6 +9,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/*
+ * Purpose: Displays the three statistics asked for on the assignment page.
+ * 
+ * Design rationale: Very straightforward calculations. Also, if the file is
+ * empty, or the total time amounts to zero, the consumption rate is automatically
+ * set to zero to avoid dividing by zero errors.
+ * 
+ * Outstanding issues: None.
+ */
+
 public class CheckBatteryStatistics extends Activity {
 
     @Override
